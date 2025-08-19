@@ -2,9 +2,7 @@
 
 describe('First Test', () => {
 
-	it('Random Checking', () => {
-		cy.visit('/');
-	});
+
 
 	// beforeEach(() => {
 	// 	cy.visit('/');
@@ -22,5 +20,11 @@ describe('First Test', () => {
 	// 	cy.get('#about_sidebar_link').click();
 	// 	cy.url().should('include', 'https://saucelabs.com/');
 	// });
+
+	it('Radio Buttons', () => {
+		cy.visit('/');
+		cy.contains('Forms').click();
+		y.contains('Form Layouts').click();
+	});
 
 });
