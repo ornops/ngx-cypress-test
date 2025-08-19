@@ -1,6 +1,10 @@
 /// <reference types="cypress"/>
 
-describe('Login Test Suite', () => {
+describe('First Test', () => {
+
+	it('Random Checking', () => {
+		cy.visit('/');
+	});
 
 	// beforeEach(() => {
 	// 	cy.visit('/');
