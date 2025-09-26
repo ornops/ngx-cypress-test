@@ -1,30 +1,87 @@
-/// <reference types="cypress"/>
+/// <reference types="cypress" />
 
-describe('First Test', () => {
+beforeEach('Open test application', () => {
+	cy.visit('/')
+	cy.contains('Forms').click()
+	cy.contains('Form Layouts').click()
+})
 
+it('Hello world 1', () => {
 
+	//by Tag
+	cy.get('input')
 
-	// beforeEach(() => {
-	// 	cy.visit('/');
-	// 	cy.get('#user-name').type('standard_user');
-	// 	cy.get('#password').type('secret_sauce');
-	// 	cy.get('#login-button').click();
-	// });
+	//by ID value
+	cy.get('#inputEmail1')
 
-	// it('Check Products Page as default page', () => {
-	// 	cy.get('.app_logo').should('contain', 'Swag Labs');
-	// });
+	// by Class value
+	cy.get('.input-full-width')
 
-	// it('Check About page', () => {
-	// 	cy.get('#react-burger-menu-btn').click();
-	// 	cy.get('#about_sidebar_link').click();
-	// 	cy.url().should('include', 'https://saucelabs.com/');
-	// });
+	// by attribute
+	cy.get('[fullwidth]')
 
-	it('Radio Buttons', () => {
-		cy.visit('/');
-		cy.contains('Forms').click();
-		y.contains('Form Layouts').click();
-	});
+	// by attribute with value
+	cy.get('[placeholder="Email"]')
 
-});
+	// by entire class value
+	cy.get('[class="input-full-width size-medium status-basic shape-rectangle nb-transition"]')
+
+	//how to combine several attributes
+	cy.get('[placeholder="Email"][fullwidth]')
+	cy.get('input[placeholder="Email"]')
+
+	//find by data-cy attribute
+	cy.get('[data-cy="inputEmail1"]')
+
+})
+
+it('Cypress Locator Methods', () => {
+	//Theory
+	//get() - to find elments on the page globally
+	//find() - to find only child elements
+	//contains() - to find web elements by text
+
+	cy.contains('Sign in')
+	cy.contains('[status="warning"]', 'Sign in')
+	cy.contains('nb-card', 'Horizontal form').find('button')
+	cy.contains('nb-card', 'Horizontal form').contains('Sign in')
+	cy.contains('nb-card', 'Horizontal form').get('button')
+})
+
+it('Child Elements', () => {
+
+	cy.contains('nb-card', 'Using the Grid').find('.row').find('button')
+
+	cy.get('nb-card').find('nb-radio-group').contains('Option 1')
+
+	cy.get('nb-card nb-radio-group').contains('Option 1')
+
+	cy.get('nb-card > nb-card-body [placeholder="Jane Doe"]')
+})
+
+it('Parent Elements', () => {
+
+	cy.get('#inputEmail1').parents('form').find('button')
+
+	cy.contains('Using the Grid').parent().find('button')
+
+	cy.get('#inputEmail1').parentsUntil('nb-card-body').find('button')
+})
+
+it('Cypress Chains', () => {
+	cy.get('#inputEmail1')
+		.parents('form')
+		.find('button')
+		.click()
+
+	cy.get('#inputEmail1')
+		.parents('form')
+		.find('nb-radio')
+		.first()
+		.should('have.text', 'Option 1')
+})
+it.only('Reusing Locators', () => {
+	cy.get('#inputEmail1').as('inputEmail1')
+	cy.get('@inputEmail1').parents('form').find('button')
+	cy.get('@inputEmail1').parents('form').find('nb-radio')
+})
